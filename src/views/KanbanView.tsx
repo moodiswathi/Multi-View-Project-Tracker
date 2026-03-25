@@ -119,21 +119,27 @@ export default function KanbanView({ tasks, activeUsers }: KanbanViewProps) {
   return (
     <div className="relative">
       <div className="overflow-x-auto">
-        <div className="flex flex-col sm:flex-row gap-4 p-2 sm:p-4 lg:p-6 snap-x snap-mandatory">
+        <div className="flex flex-col md:flex-row gap-4 p-2 sm:p-4 lg:p-6">
           {columns.map((column) => (
             <div
               key={column.id}
               data-column={column.id}
-              className={`flex-shrink-0 w-full sm:w-72 md:w-80 lg:w-64 bg-gray-200 p-3 lg:p-4 rounded-lg min-h-[28rem] sm:min-h-[25rem] ${
+              className={`w-full md:w-[320px] lg:w-64 flex-shrink-0 bg-gray-200 p-3 lg:p-4 rounded-lg min-h-[24rem] sm:min-h-[26rem] ${
                 hoveredColumn === column.id ? "bg-blue-100" : ""
-              } snap-start`}
+              }`}
               onPointerEnter={() => setHoveredColumn(column.id)}
               onPointerLeave={() => setHoveredColumn(null)}
             >
-              <h3 className="font-bold mb-3 lg:mb-4 text-sm lg:text-base">
-                {column.title} ({column.tasks.length})
-              </h3>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="font-bold text-sm lg:text-base truncate">
+                  {column.title}
+                </h3>
+                <span className="text-xs text-gray-600">
+                  {column.tasks.length}
+                </span>
+              </div>
+              <div className="space-y-2 max-h-[calc(100vh-16rem)] overflow-y-auto">
+                {" "}
                 {column.tasks.length === 0 ? (
                   <div className="text-gray-500 text-center py-6 lg:py-8 text-sm">
                     No tasks in {column.title.toLowerCase()}
