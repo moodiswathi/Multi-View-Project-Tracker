@@ -245,8 +245,8 @@ function App() {
         </div>
 
         {/* Filter controls - responsive grid */}
-        <div className="bg-white p-3 sm:p-4 rounded shadow">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 mb-4">
+        <div className="bg-white p-2 sm:p-4 rounded shadow">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 mb-3 sm:mb-4">
             {/* Status filter */}
             <div className="flex flex-col">
               <label className="text-xs font-medium text-gray-700 mb-1">
@@ -263,7 +263,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm"
+                className="border p-2 rounded text-sm w-full"
               >
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -288,7 +288,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm"
+                className="border p-2 rounded text-sm w-full"
               >
                 <option value="critical">Critical</option>
                 <option value="high">High</option>
@@ -313,7 +313,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm"
+                className="border p-2 rounded text-sm w-full"
               >
                 <option value="Swathi">Swathi</option>
                 <option value="Ravi">Ravi</option>
@@ -333,7 +333,7 @@ function App() {
                 type="date"
                 value={filters.dueDateFrom}
                 onChange={(e) => setFilters({ dueDateFrom: e.target.value })}
-                className="border p-2 rounded text-sm"
+                className="border p-2 rounded text-sm w-full"
               />
             </div>
             <div className="flex flex-col">
@@ -344,7 +344,7 @@ function App() {
                 type="date"
                 value={filters.dueDateTo}
                 onChange={(e) => setFilters({ dueDateTo: e.target.value })}
-                className="border p-2 rounded text-sm"
+                className="border p-2 rounded text-sm w-full"
               />
             </div>
 
