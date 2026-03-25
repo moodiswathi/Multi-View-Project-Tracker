@@ -207,14 +207,14 @@ function App() {
     filters.dueDateTo;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 p-2 sm:p-4">
       {/* Top navigation and controls */}
       <div className="mb-4">
-        {/* View selector buttons */}
-        <div className="flex gap-4 mb-4">
+        {/* View selector buttons - responsive layout */}
+        <div className="flex flex-wrap gap-2 sm:gap-4 mb-4">
           <button
             onClick={() => setCurrentView("kanban")}
-            className={`px-4 py-2 rounded transition-colors ${
+            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
               currentView === "kanban"
                 ? "bg-blue-500 text-white"
                 : "bg-white hover:bg-gray-50"
@@ -224,7 +224,7 @@ function App() {
           </button>
           <button
             onClick={() => setCurrentView("list")}
-            className={`px-4 py-2 rounded transition-colors ${
+            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
               currentView === "list"
                 ? "bg-blue-500 text-white"
                 : "bg-white hover:bg-gray-50"
@@ -234,7 +234,7 @@ function App() {
           </button>
           <button
             onClick={() => setCurrentView("timeline")}
-            className={`px-4 py-2 rounded transition-colors ${
+            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
               currentView === "timeline"
                 ? "bg-blue-500 text-white"
                 : "bg-white hover:bg-gray-50"
@@ -244,121 +244,152 @@ function App() {
           </button>
         </div>
 
-        {/* Filter controls */}
-        <div className="bg-white p-4 rounded shadow flex gap-4 flex-wrap">
-          {/* Status filter */}
-          <select
-            multiple
-            value={filters.status}
-            onChange={(e) =>
-              setFilters({
-                status: Array.from(
-                  e.target.selectedOptions,
-                  (option) => option.value,
-                ),
-              })
-            }
-            className="border p-2 rounded"
-          >
-            <option value="todo">To Do</option>
-            <option value="in-progress">In Progress</option>
-            <option value="in-review">In Review</option>
-            <option value="done">Done</option>
-          </select>
+        {/* Filter controls - responsive grid */}
+        <div className="bg-white p-3 sm:p-4 rounded shadow">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 mb-4">
+            {/* Status filter */}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-700 mb-1">
+                Status
+              </label>
+              <select
+                multiple
+                value={filters.status}
+                onChange={(e) =>
+                  setFilters({
+                    status: Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value,
+                    ),
+                  })
+                }
+                className="border p-2 rounded text-sm"
+              >
+                <option value="todo">To Do</option>
+                <option value="in-progress">In Progress</option>
+                <option value="in-review">In Review</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
 
-          {/* Priority filter */}
-          <select
-            multiple
-            value={filters.priority}
-            onChange={(e) =>
-              setFilters({
-                priority: Array.from(
-                  e.target.selectedOptions,
-                  (option) => option.value,
-                ),
-              })
-            }
-            className="border p-2 rounded"
-          >
-            <option value="critical">Critical</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
+            {/* Priority filter */}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-700 mb-1">
+                Priority
+              </label>
+              <select
+                multiple
+                value={filters.priority}
+                onChange={(e) =>
+                  setFilters({
+                    priority: Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value,
+                    ),
+                  })
+                }
+                className="border p-2 rounded text-sm"
+              >
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
 
-          {/* Assignee filter */}
-          <select
-            multiple
-            value={filters.assignee}
-            onChange={(e) =>
-              setFilters({
-                assignee: Array.from(
-                  e.target.selectedOptions,
-                  (option) => option.value,
-                ),
-              })
-            }
-            className="border p-2 rounded"
-          >
-            <option value="Swathi">Swathi</option>
-            <option value="Ravi">Ravi</option>
-            <option value="Anil">Anil</option>
-            <option value="Priya">Priya</option>
-            <option value="Kiran">Kiran</option>
-            <option value="Meera">Meera</option>
-          </select>
+            {/* Assignee filter */}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-700 mb-1">
+                Assignee
+              </label>
+              <select
+                multiple
+                value={filters.assignee}
+                onChange={(e) =>
+                  setFilters({
+                    assignee: Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value,
+                    ),
+                  })
+                }
+                className="border p-2 rounded text-sm"
+              >
+                <option value="Swathi">Swathi</option>
+                <option value="Ravi">Ravi</option>
+                <option value="Anil">Anil</option>
+                <option value="Priya">Priya</option>
+                <option value="Kiran">Kiran</option>
+                <option value="Meera">Meera</option>
+              </select>
+            </div>
 
-          {/* Date range filters */}
-          <input
-            type="date"
-            value={filters.dueDateFrom}
-            onChange={(e) => setFilters({ dueDateFrom: e.target.value })}
-            className="border p-2 rounded"
-            placeholder="Due From"
-          />
-          <input
-            type="date"
-            value={filters.dueDateTo}
-            onChange={(e) => setFilters({ dueDateTo: e.target.value })}
-            className="border p-2 rounded"
-            placeholder="Due To"
-          />
+            {/* Date range filters */}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-700 mb-1">
+                Due From
+              </label>
+              <input
+                type="date"
+                value={filters.dueDateFrom}
+                onChange={(e) => setFilters({ dueDateFrom: e.target.value })}
+                className="border p-2 rounded text-sm"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-700 mb-1">
+                Due To
+              </label>
+              <input
+                type="date"
+                value={filters.dueDateTo}
+                onChange={(e) => setFilters({ dueDateTo: e.target.value })}
+                className="border p-2 rounded text-sm"
+              />
+            </div>
 
-          {/* Clear filters button - only show if filters are active */}
-          {hasActiveFilters && (
-            <button
-              onClick={() =>
-                setFilters({
-                  status: [],
-                  priority: [],
-                  assignee: [],
-                  dueDateFrom: "",
-                  dueDateTo: "",
-                })
-              }
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-            >
-              Clear Filters
-            </button>
-          )}
+            {/* Clear filters button */}
+            <div className="flex flex-col justify-end">
+              {hasActiveFilters && (
+                <button
+                  onClick={() =>
+                    setFilters({
+                      status: [],
+                      priority: [],
+                      assignee: [],
+                      dueDateFrom: "",
+                      dueDateTo: "",
+                    })
+                  }
+                  className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition-colors text-sm"
+                >
+                  Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Collaboration status */}
-        <div className="mt-4 text-sm text-gray-600">
-          {activeUsers.filter((user) => user.taskId).length} people are viewing
-          this board
-          <div className="flex gap-2 mt-2">
-            {activeUsers
-              .filter((user) => user.taskId)
-              .map((user) => (
-                <div
-                  key={user.id}
-                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
-                  title={`${user.name} is viewing a task`}
-                >
-                  {user.name[0]}
-                </div>
-              ))}
+        {/* Collaboration status - responsive */}
+        <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span>
+              {activeUsers.filter((user) => user.taskId).length} people are
+              viewing this board
+            </span>
+            <div className="flex gap-2">
+              {activeUsers
+                .filter((user) => user.taskId)
+                .map((user) => (
+                  <div
+                    key={user.id}
+                    className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
+                    title={`${user.name} is viewing a task`}
+                  >
+                    {user.name[0]}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

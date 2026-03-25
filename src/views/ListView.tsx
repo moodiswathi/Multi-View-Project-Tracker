@@ -95,60 +95,70 @@ export default function ListView({
   }
 
   return (
-    <div className="p-6">
+    <div className="p-2 sm:p-6">
       <div className="bg-white rounded shadow overflow-hidden">
-        {/* Fixed header with sortable columns */}
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                className="p-3 text-left cursor-pointer hover:bg-gray-100"
-                onClick={() =>
-                  onSort(
-                    "title",
-                    sortBy === "title" && sortDirection === "asc"
-                      ? "desc"
-                      : "asc",
-                  )
-                }
-              >
-                Title{" "}
-                {sortBy === "title" && (sortDirection === "asc" ? "↑" : "↓")}
-              </th>
-              <th
-                className="p-3 text-left cursor-pointer hover:bg-gray-100"
-                onClick={() =>
-                  onSort(
-                    "priority",
-                    sortBy === "priority" && sortDirection === "asc"
-                      ? "desc"
-                      : "asc",
-                  )
-                }
-              >
-                Priority{" "}
-                {sortBy === "priority" && (sortDirection === "asc" ? "↑" : "↓")}
-              </th>
-              <th className="p-3 text-left">Assignee</th>
-              <th className="p-3 text-left">Status</th>
-              <th
-                className="p-3 text-left cursor-pointer hover:bg-gray-100"
-                onClick={() =>
-                  onSort(
-                    "dueDate",
-                    sortBy === "dueDate" && sortDirection === "asc"
-                      ? "desc"
-                      : "asc",
-                  )
-                }
-              >
-                Due Date{" "}
-                {sortBy === "dueDate" && (sortDirection === "asc" ? "↑" : "↓")}
-              </th>
-              <th className="p-3 text-left">Active Users</th>
-            </tr>
-          </thead>
-        </table>
+        {/* Responsive table with horizontal scroll on mobile */}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[600px]">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  className="p-2 sm:p-3 text-left text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
+                  onClick={() =>
+                    onSort(
+                      "title",
+                      sortBy === "title" && sortDirection === "asc"
+                        ? "desc"
+                        : "asc",
+                    )
+                  }
+                >
+                  Title{" "}
+                  {sortBy === "title" && (sortDirection === "asc" ? "↑" : "↓")}
+                </th>
+                <th
+                  className="p-2 sm:p-3 text-left text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
+                  onClick={() =>
+                    onSort(
+                      "priority",
+                      sortBy === "priority" && sortDirection === "asc"
+                        ? "desc"
+                        : "asc",
+                    )
+                  }
+                >
+                  Priority{" "}
+                  {sortBy === "priority" &&
+                    (sortDirection === "asc" ? "↑" : "↓")}
+                </th>
+                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm">
+                  Assignee
+                </th>
+                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm">
+                  Status
+                </th>
+                <th
+                  className="p-2 sm:p-3 text-left text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
+                  onClick={() =>
+                    onSort(
+                      "dueDate",
+                      sortBy === "dueDate" && sortDirection === "asc"
+                        ? "desc"
+                        : "asc",
+                    )
+                  }
+                >
+                  Due Date{" "}
+                  {sortBy === "dueDate" &&
+                    (sortDirection === "asc" ? "↑" : "↓")}
+                </th>
+                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm">
+                  Active Users
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
 
         {/* Scrollable body with virtual scrolling */}
         <div
@@ -157,86 +167,92 @@ export default function ListView({
           style={{ height: containerHeight }}
           onScroll={handleScroll}
         >
-          <table className="w-full">
-            <tbody style={{ transform: `translateY(${offsetY}px)` }}>
-              {visibleTasks.map((task) => {
-                const taskUsers = getActiveUsersForTask(task.id);
-                return (
-                  <tr
-                    key={task.id}
-                    className="border-t hover:bg-gray-50"
-                    style={{ height: rowHeight }}
-                  >
-                    <td className="p-3">{task.title}</td>
-                    <td className="p-3">
-                      <span
-                        className={`px-2 py-1 rounded text-xs ${
-                          task.priority === "critical"
-                            ? "bg-red-500 text-white"
-                            : task.priority === "high"
-                              ? "bg-orange-500 text-white"
-                              : task.priority === "medium"
-                                ? "bg-yellow-500 text-black"
-                                : "bg-green-500 text-white"
-                        }`}
-                      >
-                        {task.priority}
-                      </span>
-                    </td>
-                    <td className="p-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
-                          {task.assignee[0]}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <tbody style={{ transform: `translateY(${offsetY}px)` }}>
+                {visibleTasks.map((task) => {
+                  const taskUsers = getActiveUsersForTask(task.id);
+                  return (
+                    <tr
+                      key={task.id}
+                      className="border-t hover:bg-gray-50"
+                      style={{ height: rowHeight }}
+                    >
+                      <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                        {task.title}
+                      </td>
+                      <td className="p-2 sm:p-3">
+                        <span
+                          className={`px-1 sm:px-2 py-1 rounded text-xs ${
+                            task.priority === "critical"
+                              ? "bg-red-500 text-white"
+                              : task.priority === "high"
+                                ? "bg-orange-500 text-white"
+                                : task.priority === "medium"
+                                  ? "bg-yellow-500 text-black"
+                                  : "bg-green-500 text-white"
+                          }`}
+                        >
+                          {task.priority}
+                        </span>
+                      </td>
+                      <td className="p-2 sm:p-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 h-5 sm:w-6 sm:h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
+                            {task.assignee[0]}
+                          </div>
+                          <span className="text-xs sm:text-sm hidden sm:inline">
+                            {task.assignee}
+                          </span>
                         </div>
-                        {task.assignee}
-                      </div>
-                    </td>
-                    <td className="p-3">
-                      <select
-                        value={task.status}
-                        onChange={(e) =>
-                          handleStatusChange(task.id, e.target.value)
-                        }
-                        className="border rounded p-1 text-sm"
-                      >
-                        <option value="todo">To Do</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="in-review">In Review</option>
-                        <option value="done">Done</option>
-                      </select>
-                    </td>
-                    <td className="p-3 text-sm">
-                      {getDueStatus(task.dueDate)}
-                    </td>
-                    <td className="p-3">
-                      {taskUsers.length > 0 && (
-                        <div className="flex gap-1">
-                          {taskUsers.slice(0, 2).map((user) => (
-                            <div
-                              key={user.id}
-                              className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
-                            >
-                              {user.name[0]}
-                            </div>
-                          ))}
-                          {taskUsers.length > 2 && (
-                            <div className="w-5 h-5 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
-                              +{taskUsers.length - 2}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                      <td className="p-2 sm:p-3">
+                        <select
+                          value={task.status}
+                          onChange={(e) =>
+                            handleStatusChange(task.id, e.target.value)
+                          }
+                          className="border rounded p-1 text-xs sm:text-sm w-full sm:w-auto"
+                        >
+                          <option value="todo">To Do</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="in-review">In Review</option>
+                          <option value="done">Done</option>
+                        </select>
+                      </td>
+                      <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                        {getDueStatus(task.dueDate)}
+                      </td>
+                      <td className="p-2 sm:p-3">
+                        {taskUsers.length > 0 && (
+                          <div className="flex gap-1">
+                            {taskUsers.slice(0, 2).map((user) => (
+                              <div
+                                key={user.id}
+                                className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
+                              >
+                                {user.name[0]}
+                              </div>
+                            ))}
+                            {taskUsers.length > 2 && (
+                              <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
+                                +{taskUsers.length - 2}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      {/* Display current visible range */}
-      <div className="mt-4 text-sm text-gray-600">
+      {/* Display current visible range - responsive */}
+      <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 text-center sm:text-left">
         Showing {visibleStart + 1}-{Math.min(visibleEnd, tasks.length)} of{" "}
         {tasks.length} tasks
       </div>

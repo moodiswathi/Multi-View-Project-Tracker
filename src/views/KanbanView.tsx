@@ -117,100 +117,105 @@ export default function KanbanView({ tasks, activeUsers }: KanbanViewProps) {
   };
 
   return (
-    <div className="relative flex gap-6 p-6 overflow-x-auto">
-      {columns.map((column) => (
-        <div
-          key={column.id}
-          data-column={column.id}
-          className={`w-64 bg-gray-200 p-4 rounded-lg min-h-96 ${
-            hoveredColumn === column.id ? "bg-blue-100" : ""
-          }`}
-          onPointerEnter={() => setHoveredColumn(column.id)}
-          onPointerLeave={() => setHoveredColumn(null)}
-        >
-          <h3 className="font-bold mb-4">
-            {column.title} ({column.tasks.length})
-          </h3>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
-            {column.tasks.length === 0 ? (
-              <div className="text-gray-500 text-center py-8">
-                No tasks in {column.title.toLowerCase()}
-              </div>
-            ) : (
-              column.tasks.map((task) => {
-                if (draggedTask?.id === task.id) {
-                  // Show a placeholder while dragging
+    <div className="relative">
+      {/* Mobile: Stack columns vertically, Desktop: Horizontal layout */}
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 p-4 lg:p-6 overflow-x-auto">
+        {columns.map((column) => (
+          <div
+            key={column.id}
+            data-column={column.id}
+            className={`w-full lg:w-64 bg-gray-200 p-3 lg:p-4 rounded-lg min-h-96 ${
+              hoveredColumn === column.id ? "bg-blue-100" : ""
+            }`}
+            onPointerEnter={() => setHoveredColumn(column.id)}
+            onPointerLeave={() => setHoveredColumn(null)}
+          >
+            <h3 className="font-bold mb-3 lg:mb-4 text-sm lg:text-base">
+              {column.title} ({column.tasks.length})
+            </h3>
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {column.tasks.length === 0 ? (
+                <div className="text-gray-500 text-center py-6 lg:py-8 text-sm">
+                  No tasks in {column.title.toLowerCase()}
+                </div>
+              ) : (
+                column.tasks.map((task) => {
+                  if (draggedTask?.id === task.id) {
+                    // Show a placeholder while dragging
+                    return (
+                      <div
+                        key={task.id}
+                        className="bg-gray-300 p-3 rounded opacity-50"
+                        style={{ height: "80px" }}
+                      >
+                        Placeholder
+                      </div>
+                    );
+                  }
+
+                  const { dueText, color } = getDueStatus(task.dueDate);
+                  const taskUsers = getActiveUsersForTask(task.id);
+
                   return (
                     <div
                       key={task.id}
-                      className="bg-gray-300 p-3 rounded opacity-50"
-                      style={{ height: "80px" }}
+                      className="bg-white p-3 rounded shadow cursor-move select-none hover:shadow-md transition-shadow"
+                      onPointerDown={(e) => handlePointerDown(e, task)}
+                      onPointerMove={handlePointerMove}
+                      onPointerUp={handlePointerUp}
                     >
-                      Placeholder
+                      <p className="font-semibold mb-2 text-sm lg:text-base">
+                        {task.title}
+                      </p>
+                      <div className="flex justify-between items-center mb-2">
+                        <div className="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
+                          {task.assignee[0]}
+                        </div>
+                        <span
+                          className={`text-xs px-2 py-1 rounded ${
+                            task.priority === "critical"
+                              ? "bg-red-500 text-white"
+                              : task.priority === "high"
+                                ? "bg-orange-500 text-white"
+                                : task.priority === "medium"
+                                  ? "bg-yellow-500 text-black"
+                                  : "bg-green-500 text-white"
+                          }`}
+                        >
+                          {task.priority}
+                        </span>
+                      </div>
+                      <p className={`text-xs ${color} mb-2`}>{dueText}</p>
+                      {taskUsers.length > 0 && (
+                        <div className="flex gap-1">
+                          {taskUsers.slice(0, 3).map((user) => (
+                            <div
+                              key={user.id}
+                              className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
+                            >
+                              {user.name[0]}
+                            </div>
+                          ))}
+                          {taskUsers.length > 3 && (
+                            <div className="w-5 h-5 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
+                              +{taskUsers.length - 3}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
-                }
-
-                const { dueText, color } = getDueStatus(task.dueDate);
-                const taskUsers = getActiveUsersForTask(task.id);
-
-                return (
-                  <div
-                    key={task.id}
-                    className="bg-white p-3 rounded shadow cursor-move select-none"
-                    onPointerDown={(e) => handlePointerDown(e, task)}
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={handlePointerUp}
-                  >
-                    <p className="font-semibold mb-2">{task.title}</p>
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
-                        {task.assignee[0]}
-                      </div>
-                      <span
-                        className={`text-xs px-2 py-1 rounded ${
-                          task.priority === "critical"
-                            ? "bg-red-500 text-white"
-                            : task.priority === "high"
-                              ? "bg-orange-500 text-white"
-                              : task.priority === "medium"
-                                ? "bg-yellow-500 text-black"
-                                : "bg-green-500 text-white"
-                        }`}
-                      >
-                        {task.priority}
-                      </span>
-                    </div>
-                    <p className={`text-xs ${color}`}>{dueText}</p>
-                    {taskUsers.length > 0 && (
-                      <div className="flex gap-1 mt-2">
-                        {taskUsers.slice(0, 2).map((user) => (
-                          <div
-                            key={user.id}
-                            className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
-                          >
-                            {user.name[0]}
-                          </div>
-                        ))}
-                        {taskUsers.length > 2 && (
-                          <div className="w-5 h-5 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
-                            +{taskUsers.length - 2}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
+                })
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {/* Render the dragged task as a floating element */}
       {draggedTask && (
         <div
-          className="absolute bg-white p-3 rounded shadow-lg pointer-events-none z-50"
+          className="fixed bg-white p-3 rounded shadow-lg pointer-events-none z-50"
           style={{
             left: dragPosition.x - 100,
             top: dragPosition.y - 20,

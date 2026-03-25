@@ -17,7 +17,7 @@ export default function TimelineView({
   // Timeline configuration
   const currentMonth = dayjs().startOf("month");
   const daysInMonth = currentMonth.daysInMonth();
-  const dayWidth = 40; // pixels per day - adjust this to fit more/less days
+  const dayWidth = window.innerWidth < 640 ? 30 : 40; // 30px on mobile, 40px on larger screens
 
   /**
    * Calculates the horizontal position of a date on the timeline
@@ -57,22 +57,22 @@ export default function TimelineView({
   });
 
   return (
-    <div className="p-6">
-      {/* Timeline header showing current month */}
-      <h2 className="text-xl font-bold mb-4">
+    <div className="p-2 sm:p-6">
+      {/* Timeline header showing current month - responsive */}
+      <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4">
         {currentMonth.format("MMMM YYYY")}
       </h2>
 
-      <div className="relative bg-white rounded shadow p-4 overflow-x-auto">
-        {/* Calendar header with day numbers */}
-        <div className="flex mb-4 border-b pb-2">
-          <div className="w-32 flex-shrink-0"></div>{" "}
-          {/* Space for task names */}
+      <div className="relative bg-white rounded shadow p-2 sm:p-4 overflow-x-auto">
+        {/* Calendar header with day numbers - responsive */}
+        <div className="flex mb-2 sm:mb-4 border-b pb-2 min-w-max">
+          <div className="w-24 sm:w-32 flex-shrink-0"></div>{" "}
+          {/* Space for task names - responsive width */}
           <div className="flex">
             {Array.from({ length: daysInMonth }, (_, i) => (
               <div
                 key={i}
-                className="w-10 text-center text-sm text-gray-600"
+                className="text-center text-xs sm:text-sm text-gray-600"
                 style={{ width: dayWidth }}
               >
                 {i + 1}
@@ -81,33 +81,38 @@ export default function TimelineView({
           </div>
         </div>
 
-        {/* Vertical line indicating today's date */}
+        {/* Vertical line indicating today's date - responsive positioning */}
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-10"
           style={{
-            left: `${32 + getPosition(dayjs().format("YYYY-MM-DD")) + dayWidth / 2}px`,
+            left: `${(window.innerWidth < 640 ? 24 : 32) + getPosition(dayjs().format("YYYY-MM-DD")) + dayWidth / 2}px`,
           }}
         ></div>
 
-        {/* Task rows */}
-        <div className="space-y-2">
+        {/* Task rows - responsive */}
+        <div className="space-y-1 sm:space-y-2">
           {timelineTasks.map((task) => {
             // Calculate positioning for the task bar
-            const left = 128 + getPosition(task.startDate || task.dueDate);
+            const left =
+              (window.innerWidth < 640 ? 96 : 128) +
+              getPosition(task.startDate || task.dueDate);
             const width = getWidth(task.startDate, task.dueDate);
             const taskUsers = getActiveUsersForTask(task.id);
 
             return (
-              <div key={task.id} className="flex items-center">
-                {/* Task name column */}
-                <div className="w-32 flex-shrink-0 text-sm font-medium pr-4">
+              <div key={task.id} className="flex items-center min-w-max">
+                {/* Task name column - responsive */}
+                <div className="w-24 sm:w-32 flex-shrink-0 text-xs sm:text-sm font-medium pr-2 sm:pr-4 truncate">
                   {task.title}
                 </div>
 
-                {/* Timeline area */}
-                <div className="relative flex-1" style={{ height: 40 }}>
+                {/* Timeline area - responsive */}
+                <div
+                  className="relative flex-1"
+                  style={{ height: window.innerWidth < 640 ? 32 : 40 }}
+                >
                   <div
-                    className={`absolute top-0 h-8 rounded flex items-center px-2 text-xs text-white ${
+                    className={`absolute top-0 h-6 sm:h-8 rounded flex items-center px-1 sm:px-2 text-xs text-white ${
                       task.priority === "critical"
                         ? "bg-red-500"
                         : task.priority === "high"
@@ -118,22 +123,24 @@ export default function TimelineView({
                     }`}
                     style={{ left: `${left}px`, width: `${width}px` }}
                   >
-                    {/* Task title inside the bar */}
-                    <span className="truncate">{task.title}</span>
+                    {/* Task title inside the bar - responsive */}
+                    <span className="truncate text-xs sm:text-xs">
+                      {task.title}
+                    </span>
 
-                    {/* Active users indicator */}
+                    {/* Active users indicator - responsive */}
                     {taskUsers.length > 0 && (
-                      <div className="ml-2 flex gap-1">
+                      <div className="ml-1 sm:ml-2 flex gap-1">
                         {taskUsers.slice(0, 2).map((user) => (
                           <div
                             key={user.id}
-                            className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center text-xs"
+                            className="w-3 h-3 sm:w-4 sm:h-4 bg-blue-600 rounded-full flex items-center justify-center text-xs"
                           >
                             {user.name[0]}
                           </div>
                         ))}
                         {taskUsers.length > 2 && (
-                          <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center text-xs">
+                          <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-600 rounded-full flex items-center justify-center text-xs">
                             +{taskUsers.length - 2}
                           </div>
                         )}
