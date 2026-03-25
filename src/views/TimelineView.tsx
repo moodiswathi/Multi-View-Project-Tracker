@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { Task } from "../types/task";
 import dayjs from "dayjs";
 
@@ -14,10 +15,20 @@ export default function TimelineView({
   tasks,
   activeUsers,
 }: TimelineViewProps) {
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1024,
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Timeline configuration
   const currentMonth = dayjs().startOf("month");
   const daysInMonth = currentMonth.daysInMonth();
-  const dayWidth = window.innerWidth < 640 ? 30 : 40; // 30px on mobile, 40px on larger screens
+  const dayWidth = windowWidth < 640 ? 28 : windowWidth < 1024 ? 34 : 40;
 
   /**
    * Calculates the horizontal position of a date on the timeline
@@ -85,7 +96,7 @@ export default function TimelineView({
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-10"
           style={{
-            left: `${(window.innerWidth < 640 ? 24 : 32) + getPosition(dayjs().format("YYYY-MM-DD")) + dayWidth / 2}px`,
+            left: `${(windowWidth < 640 ? 24 : 32) + getPosition(dayjs().format("YYYY-MM-DD")) + dayWidth / 2}px`,
           }}
         ></div>
 
@@ -94,7 +105,7 @@ export default function TimelineView({
           {timelineTasks.map((task) => {
             // Calculate positioning for the task bar
             const left =
-              (window.innerWidth < 640 ? 96 : 128) +
+              (windowWidth < 640 ? 96 : 128) +
               getPosition(task.startDate || task.dueDate);
             const width = getWidth(task.startDate, task.dueDate);
             const taskUsers = getActiveUsersForTask(task.id);
@@ -109,7 +120,7 @@ export default function TimelineView({
                 {/* Timeline area - responsive */}
                 <div
                   className="relative flex-1"
-                  style={{ height: window.innerWidth < 640 ? 32 : 40 }}
+                  style={{ height: windowWidth < 640 ? 32 : 40 }}
                 >
                   <div
                     className={`absolute top-0 h-6 sm:h-8 rounded flex items-center px-1 sm:px-2 text-xs text-white ${

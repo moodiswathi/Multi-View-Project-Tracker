@@ -131,10 +131,10 @@ export default function ListView({
                   {sortBy === "priority" &&
                     (sortDirection === "asc" ? "↑" : "↓")}
                 </th>
-                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm">
+                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm hidden sm:table-cell">
                   Assignee
                 </th>
-                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm">
+                <th className="p-2 sm:p-3 text-left text-xs sm:text-sm hidden md:table-cell">
                   Status
                 </th>
                 <th
@@ -196,17 +196,17 @@ export default function ListView({
                           {task.priority}
                         </span>
                       </td>
-                      <td className="p-2 sm:p-3">
+                      <td className="p-2 sm:p-3 hidden sm:table-cell">
                         <div className="flex items-center gap-2">
                           <div className="w-5 h-5 sm:w-6 sm:h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
                             {task.assignee[0]}
                           </div>
-                          <span className="text-xs sm:text-sm hidden sm:inline">
+                          <span className="text-xs sm:text-sm">
                             {task.assignee}
                           </span>
                         </div>
                       </td>
-                      <td className="p-2 sm:p-3">
+                      <td className="p-2 sm:p-3 hidden md:table-cell">
                         <select
                           value={task.status}
                           onChange={(e) =>
@@ -220,10 +220,10 @@ export default function ListView({
                           <option value="done">Done</option>
                         </select>
                       </td>
-                      <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                      <td className="p-2 sm:p-3 text-xs sm:text-sm hidden md:table-cell">
                         {getDueStatus(task.dueDate)}
                       </td>
-                      <td className="p-2 sm:p-3">
+                      <td className="p-2 sm:p-3 hidden lg:table-cell">
                         {taskUsers.length > 0 && (
                           <div className="flex gap-1">
                             {taskUsers.slice(0, 2).map((user) => (
