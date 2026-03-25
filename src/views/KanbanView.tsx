@@ -165,45 +165,48 @@ export default function KanbanView({ tasks, activeUsers }: KanbanViewProps) {
                     return (
                       <div
                         key={task.id}
-                        className="bg-white p-3 rounded shadow cursor-move select-none hover:shadow-md transition-shadow"
+                        className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 cursor-move select-none hover:shadow-md transition-all duration-200 active:scale-95 min-h-[100px]"
                         onPointerDown={(e) => handlePointerDown(e, task)}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
                       >
-                        <p className="font-semibold mb-2 text-sm lg:text-base">
+                        <p className="font-semibold mb-3 text-sm lg:text-base leading-tight">
                           {task.title}
                         </p>
-                        <div className="flex justify-between items-center mb-2">
-                          <div className="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs">
+                        <div className="flex justify-between items-center mb-3">
+                          <div className="w-7 h-7 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-medium">
                             {task.assignee[0]}
                           </div>
                           <span
-                            className={`text-xs px-2 py-1 rounded ${
+                            className={`text-xs px-2 py-1 rounded-full font-medium ${
                               task.priority === "critical"
-                                ? "bg-red-500 text-white"
+                                ? "bg-red-100 text-red-800 border border-red-200"
                                 : task.priority === "high"
-                                  ? "bg-orange-500 text-white"
+                                  ? "bg-orange-100 text-orange-800 border border-orange-200"
                                   : task.priority === "medium"
-                                    ? "bg-yellow-500 text-black"
-                                    : "bg-green-500 text-white"
+                                    ? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+                                    : "bg-green-100 text-green-800 border border-green-200"
                             }`}
                           >
                             {task.priority}
                           </span>
                         </div>
-                        <p className={`text-xs ${color} mb-2`}>{dueText}</p>
+                        <p className={`text-xs mb-3 font-medium ${color}`}>
+                          {dueText}
+                        </p>
                         {taskUsers.length > 0 && (
                           <div className="flex gap-1">
                             {taskUsers.slice(0, 3).map((user) => (
                               <div
                                 key={user.id}
-                                className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs"
+                                className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-medium border-2 border-white"
+                                title={`${user.name} is viewing`}
                               >
                                 {user.name[0]}
                               </div>
                             ))}
                             {taskUsers.length > 3 && (
-                              <div className="w-5 h-5 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
+                              <div className="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs font-medium border-2 border-white">
                                 +{taskUsers.length - 3}
                               </div>
                             )}

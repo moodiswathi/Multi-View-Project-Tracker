@@ -207,49 +207,49 @@ function App() {
     filters.dueDateTo;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-2 sm:p-4">
+    <div className="min-h-screen bg-gray-100 p-1 sm:p-4">
       {/* Top navigation and controls */}
-      <div className="mb-4">
-        {/* View selector buttons - responsive layout */}
-        <div className="flex flex-wrap gap-2 sm:gap-4 mb-4">
+      <div className="mb-3 sm:mb-4">
+        {/* View selector buttons - improved mobile layout */}
+        <div className="flex gap-1 sm:gap-4 mb-3 sm:mb-4 overflow-x-auto pb-1">
           <button
             onClick={() => setCurrentView("kanban")}
-            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-3 sm:px-4 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-colors min-w-[80px] sm:min-w-0 ${
               currentView === "kanban"
-                ? "bg-blue-500 text-white"
-                : "bg-white hover:bg-gray-50"
+                ? "bg-blue-500 text-white shadow-md"
+                : "bg-white hover:bg-gray-50 border border-gray-200"
             }`}
           >
             Kanban
           </button>
           <button
             onClick={() => setCurrentView("list")}
-            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-3 sm:px-4 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-colors min-w-[80px] sm:min-w-0 ${
               currentView === "list"
-                ? "bg-blue-500 text-white"
-                : "bg-white hover:bg-gray-50"
+                ? "bg-blue-500 text-white shadow-md"
+                : "bg-white hover:bg-gray-50 border border-gray-200"
             }`}
           >
             List
           </button>
           <button
             onClick={() => setCurrentView("timeline")}
-            className={`px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-3 sm:px-4 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-colors min-w-[80px] sm:min-w-0 ${
               currentView === "timeline"
-                ? "bg-blue-500 text-white"
-                : "bg-white hover:bg-gray-50"
+                ? "bg-blue-500 text-white shadow-md"
+                : "bg-white hover:bg-gray-50 border border-gray-200"
             }`}
           >
             Timeline
           </button>
         </div>
 
-        {/* Filter controls - responsive grid */}
-        <div className="bg-white p-2 sm:p-4 rounded shadow">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 mb-3 sm:mb-4">
+        {/* Filter controls - cleaner mobile layout */}
+        <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
             {/* Status filter */}
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">
+              <label className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
                 Status
               </label>
               <select
@@ -263,7 +263,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm w-full"
+                className="border border-gray-300 p-2 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
               >
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -274,7 +274,7 @@ function App() {
 
             {/* Priority filter */}
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">
+              <label className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
                 Priority
               </label>
               <select
@@ -288,7 +288,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm w-full"
+                className="border border-gray-300 p-2 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
               >
                 <option value="critical">Critical</option>
                 <option value="high">High</option>
@@ -299,7 +299,7 @@ function App() {
 
             {/* Assignee filter */}
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">
+              <label className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
                 Assignee
               </label>
               <select
@@ -313,7 +313,7 @@ function App() {
                     ),
                   })
                 }
-                className="border p-2 rounded text-sm w-full"
+                className="border border-gray-300 p-2 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
               >
                 <option value="Swathi">Swathi</option>
                 <option value="Ravi">Ravi</option>
@@ -324,32 +324,32 @@ function App() {
               </select>
             </div>
 
-            {/* Date range filters */}
-            <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">
+            {/* Date range filters - stacked on mobile */}
+            <div className="flex flex-col sm:col-span-2 lg:col-span-1">
+              <label className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
                 Due From
               </label>
               <input
                 type="date"
                 value={filters.dueDateFrom}
                 onChange={(e) => setFilters({ dueDateFrom: e.target.value })}
-                className="border p-2 rounded text-sm w-full"
+                className="border border-gray-300 p-2 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
               />
             </div>
-            <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">
+            <div className="flex flex-col sm:col-span-2 lg:col-span-1">
+              <label className="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
                 Due To
               </label>
               <input
                 type="date"
                 value={filters.dueDateTo}
                 onChange={(e) => setFilters({ dueDateTo: e.target.value })}
-                className="border p-2 rounded text-sm w-full"
+                className="border border-gray-300 p-2 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
               />
             </div>
 
-            {/* Clear filters button */}
-            <div className="flex flex-col justify-end">
+            {/* Clear filters button - full width on mobile */}
+            <div className="flex flex-col justify-end sm:col-span-2 lg:col-span-1">
               {hasActiveFilters && (
                 <button
                   onClick={() =>
@@ -361,7 +361,7 @@ function App() {
                       dueDateTo: "",
                     })
                   }
-                  className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition-colors text-sm"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors font-medium text-sm w-full sm:w-auto"
                 >
                   Clear Filters
                 </button>
@@ -392,24 +392,24 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main content area - render the selected view */}
-      {currentView === "kanban" && (
-        <KanbanView tasks={filteredTasks} activeUsers={activeUsers} />
-      )}
-      {currentView === "list" && (
-        <ListView
-          tasks={sortedTasks}
-          activeUsers={activeUsers}
-          onSort={setSort}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-        />
-      )}
-      {currentView === "timeline" && (
-        <TimelineView tasks={filteredTasks} activeUsers={activeUsers} />
-      )}
+        {/* Main content area - render the selected view */}
+        {currentView === "kanban" && (
+          <KanbanView tasks={filteredTasks} activeUsers={activeUsers} />
+        )}
+        {currentView === "list" && (
+          <ListView
+            tasks={sortedTasks}
+            activeUsers={activeUsers}
+            onSort={setSort}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
+          />
+        )}
+        {currentView === "timeline" && (
+          <TimelineView tasks={filteredTasks} activeUsers={activeUsers} />
+        )}
+      </div>
     </div>
   );
 }

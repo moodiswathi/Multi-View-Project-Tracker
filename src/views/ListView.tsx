@@ -95,15 +95,15 @@ export default function ListView({
   }
 
   return (
-    <div className="p-2 sm:p-6">
-      <div className="bg-white rounded shadow overflow-hidden">
+    <div className="p-1 sm:p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         {/* Responsive table with horizontal scroll on mobile */}
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
             <thead className="bg-gray-50">
               <tr>
                 <th
-                  className="p-2 sm:p-3 text-left text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
+                  className="p-3 sm:p-4 text-left text-xs sm:text-sm font-semibold text-gray-700 bg-gray-50 border-b border-gray-200"
                   onClick={() =>
                     onSort(
                       "title",
@@ -113,8 +113,11 @@ export default function ListView({
                     )
                   }
                 >
-                  Title{" "}
-                  {sortBy === "title" && (sortDirection === "asc" ? "↑" : "↓")}
+                  <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600">
+                    Title{" "}
+                    {sortBy === "title" &&
+                      (sortDirection === "asc" ? "↑" : "↓")}
+                  </div>
                 </th>
                 <th
                   className="p-2 sm:p-3 text-left text-xs sm:text-sm cursor-pointer hover:bg-gray-100"
@@ -175,10 +178,10 @@ export default function ListView({
                   return (
                     <tr
                       key={task.id}
-                      className="border-t hover:bg-gray-50"
+                      className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                       style={{ height: rowHeight }}
                     >
-                      <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                      <td className="p-3 sm:p-4 text-xs sm:text-sm font-medium">
                         {task.title}
                       </td>
                       <td className="p-2 sm:p-3">
